@@ -64,3 +64,26 @@ body {
     background-color: #5C6BC0;
   }
   
+  .workout-plan-container {
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .workout-plan-title {
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .workout-plan-text {
+    font-size: 18px;
+    color: #555;
+    line-height: 1.5;
+  }
+  
+  
+  
+  

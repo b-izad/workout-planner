@@ -1,38 +1,53 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-const WorkoutForm = ({ setWorkoutPlan }) => {
-    const [age, setAge] = useState('');
-    const [sex, setSex] = useState('');
-    const [activities, setActivities] = useState('');
-    const [workoutTime, setWorkoutTime] = useState('');
-    const [goals, setGoals] = useState('');
-    const [equipment, setEquipment] = useState('');
-    const [workoutFrequency, setWorkoutFrequency] = useState('');
-    const [fitnessLevel, setFitnessLevel] = useState('');
-  
-    const handleSubmit = async (e) => {
-      e.preventDefault();
-  
-      const requestBody = {
-        age,
-        sex,
-        activities,
-        workoutTime,
-        goals,
-        equipment,
-        workoutFrequency,
-        fitnessLevel,
-      };
-  
-      try {
-        const response = await axios.post('YOUR_SERVERLESS_FUNCTION_URL', requestBody);
-        setWorkoutPlan(response.data);
-      } catch (error) {
-        console.error('Error fetching workout plan:', error);
-      }
+import WorkoutPlan from './WorkOutPlan';
+
+const WorkoutForm = () => {
+  const [age, setAge] = useState('');
+  const [sex, setSex] = useState('');
+  const [weight, setWeight] = useState('');
+  const [height, setHeight] = useState('');
+  const [goals, setGoals] = useState('');
+  const [days, setDays] = useState('');
+  const [equipment, setEquipment] = useState('');
+  const [workoutPlan, setWorkoutPlan] = useState('');
+  const [planReady, setPlanReady] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const requestBody = {
+      model: 'text-davinci-003',
+      prompt: `I am a ${sex}, ${age} years old. My weight is ${weight} cm and my height is ${height} kilograms,  goals: ${goals}, equipment: ${equipment}, I am willing to workout ${days} a week. What's a good workout plan for me? Please devide the answer to two parts.Please first give me my IBM and tell me if it means Im in helthy range or not. then in one line tell me how long do I need to do cardio weekly ,and next  Please give the muscle building workouts (with numbers) and tell me each day do what for the best results`,
+      max_tokens: 500,
+      temperature: 0.5,
     };
+
+    try {
+      const response = await axios.post('https://api.openai.com/v1/completions', requestBody, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${process.env.REACT_APP_OPENAI_KEY}`,
+        },
+      });
+      setWorkoutPlan(response.data.choices[0].text);
+      setPlanReady(true);
+    } catch (error) {
+      console.error('Error fetching workout plan:', error);
+    }
+  };
+
+
+
+  
+    
   
     return (
+        <div>
+           
+      {planReady ? (
+        <WorkoutPlan plan={workoutPlan} />
+      ) : (
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="age">Age:</label>
@@ -41,6 +56,26 @@ const WorkoutForm = ({ setWorkoutPlan }) => {
             id="age"
             value={age}
             onChange={(e) => setAge(e.target.value)}
+            required
+          />
+        </div>
+        <div>
+          <label htmlFor="height">Height:</label>
+          <input
+            type="number"
+            id="height"
+            value={height}
+            onChange={(e) => setHeight(e.target.value)}
+            required
+          />
+        </div>
+        <div>
+          <label htmlFor="weight">Weight:</label>
+          <input
+            type="number"
+            id="weight"
+            value={weight}
+            onChange={(e) => setWeight(e.target.value)}
             required
           />
         </div>
@@ -54,24 +89,17 @@ const WorkoutForm = ({ setWorkoutPlan }) => {
           </select>
         </div>
         <div>
-          <label htmlFor="activities">Usual Activities:</label>
-          <textarea
-            id="activities"
-            value={activities}
-            onChange={(e) => setActivities(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="workoutTime">Workout Time (in minutes):</label>
+          <label htmlFor="Days">How many days a week are you able to workout:</label>
           <input
             type="number"
-            id="workoutTime"
-            value={workoutTime}
-            onChange={(e) => setWorkoutTime(e.target.value)}
+            id="days"
+            value={days}
+            onChange={(e) => setDays(e.target.value)}
             required
           />
         </div>
+      
+     
         <div>
           <label htmlFor="goals">Goals:</label>
           <select id="goals" value={goals} onChange={(e) => setGoals(e.target.value)} required>
@@ -95,6 +123,8 @@ const WorkoutForm = ({ setWorkoutPlan }) => {
         </div>
         <button type="submit">Get Workout Plan</button>
 
-        </form>)}
+        </form>
+      )}
+        </div>)}
   
   export default WorkoutForm;
