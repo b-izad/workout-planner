@@ -30,17 +30,25 @@ const WorkoutForm = () => {
           'Authorization': `Bearer ${process.env.REACT_APP_OPENAI_KEY}`,
         },
       });
-      setWorkoutPlan(response.data.choices[0].text);
+      const workoutPlanText = response.data.choices[0].text;
+      console.log('workoutPlanText:', workoutPlanText); // Log the workout plan text
+      
+      const workoutPlanArray = workoutPlanText.split(/\n{2,}/);
+
+      console.log('workoutPlanArray:', workoutPlanArray); // Log the split workout plan array
+      
+      const formattedWorkoutPlan = workoutPlanArray.slice(1).map((plan) => {
+        const [day, exercises] = plan.split(':');
+        return { day, exercises };
+      });
+      
+      setWorkoutPlan(formattedWorkoutPlan);
+      console.log(formattedWorkoutPlan)
       setPlanReady(true);
     } catch (error) {
       console.error('Error fetching workout plan:', error);
     }
   };
-
-
-
-  
-    
   
     return (
         <div>
