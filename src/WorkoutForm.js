@@ -18,7 +18,7 @@ const WorkoutForm = () => {
 
     const requestBody = {
       model: 'text-davinci-003',
-      prompt: `I am a ${sex}, ${age} years old. My weight is ${weight} cm and my height is ${height} kilograms,  goals: ${goals}, equipment: ${equipment}, I am willing to workout ${days} a week. What's a good workout plan for me? Please devide the answer to two parts.Please first give me my IBM and tell me if it means Im in helthy range or not. then in one line tell me how long do I need to do cardio weekly ,and next  Please give the muscle building workouts (with numbers) and tell me each day do what for the best results`,
+      prompt: `I am a ${sex}, ${age} years old. My weight is ${weight} cm and my height is ${height} kilograms,  goals: ${goals}, equipment: ${equipment}, I am willing to workout ${days} a week. What's a good workout plan for me? give me the workouts plan (with numbers) and tell me each day do what (devided oin the ${days} I can workout) for the best results`,
       max_tokens: 500,
       temperature: 0.5,
     };
@@ -129,7 +129,7 @@ const WorkoutForm = () => {
             <option value="other">Other Equipment</option>
           </select>
         </div>
-        <button type="submit">Get Workout Plan</button>
+        <button className = 'button' type="submit">Get Workout Plan</button>
 
         </form>
       )}
