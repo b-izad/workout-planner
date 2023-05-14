@@ -3,10 +3,6 @@ import axios from 'axios';
 import WorkoutPlan from './WorkOutPlan';
 import { RingLoader } from 'react-spinners';
 
-
-
-
-
 const WorkoutForm = () => {
   const [age, setAge] = useState('');
   const [sex, setSex] = useState('');

@@ -9,7 +9,6 @@ h1 {
   font-family: 'Roboto', sans-serif;
 }
 
-/* Other CSS styles */
 
 body {
   font-family: Arial, sans-serif;
@@ -103,15 +102,15 @@ button:hover {
   margin-bottom: 20px;
   width: 800px;
   height: 500px;
-  font-size:20px; /* Adjust the font size as per your preference */
+  font-size:20px; 
   line-height:2;
-  max-width: 100%; /* Added */
-  width: 100%; /* Added */
+  max-width: 100%; 
+  width: 100%; 
 }
 
 @media screen and (min-width: 768px) {
   .workout-card {
-    max-width: 800px; /* Adjust the max-width as needed */
+    max-width: 800px; 
     margin-left: auto;
     margin-right: auto;
   }
@@ -119,7 +118,7 @@ button:hover {
 
 @media screen and (min-width: 1200px) {
   .workout-card {
-    max-width: 1200px; /* Adjust the max-width as needed */
+    max-width: 1200px;
   }
 }
 
@@ -142,7 +141,7 @@ button:hover {
 }
 
 .navbar .logo {
-  margin-right: auto; /* Pushes the logo to the left */
+  margin-right: auto; 
   margin-left: 20px;
 }
 
@@ -175,11 +174,11 @@ button:hover {
   padding: 20px;
  background-color:  rgb(33, 42, 62) ;
   position: absolute;
-  top: 70px; /* Adjust this value to match the height of your navbar */
+  top: 70px;
   left: 0;
   right: 0;
   bottom: 0;
-  overflow-y: auto; /* Add scroll if content exceeds container height */
+  overflow-y: auto; 
   color: white;
 }
 
@@ -237,7 +236,7 @@ button:hover {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh; /* Set the height to 100% of the viewport height */
+  height: 100vh; 
   text-align: center;
 }
 
