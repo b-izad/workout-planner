@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import WorkoutPlan from './WorkOutPlan';
+import { RingLoader } from 'react-spinners';
+
+
+
+
 
 const WorkoutForm = () => {
   const [age, setAge] = useState('');
@@ -12,9 +17,12 @@ const WorkoutForm = () => {
   const [equipment, setEquipment] = useState('');
   const [workoutPlan, setWorkoutPlan] = useState('');
   const [planReady, setPlanReady] = useState(false);
+  const [loading, setLoading] = useState(false);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     const requestBody = {
       model: 'text-davinci-003',
@@ -42,7 +50,8 @@ const WorkoutForm = () => {
         return { day, exercises };
       });
       
-      setWorkoutPlan(formattedWorkoutPlan);
+      setWorkoutPlan(workoutPlanText);
+      setLoading(false);
       console.log(formattedWorkoutPlan)
       setPlanReady(true);
     } catch (error) {
@@ -50,12 +59,16 @@ const WorkoutForm = () => {
     }
   };
   
-    return (
-        <div>
-           
-      {planReady ? (
-        <WorkoutPlan plan={workoutPlan} />
-      ) : (
+    return(
+      <div>
+        {loading ? (
+          <div className="spinner-container">
+            <RingLoader color='rgb(193, 208, 181)' loading={true} size={400} />
+           <p className='spinner-container-p'> Hang tight while we are preparing the best plan for you...</p>
+          </div>
+        ) : planReady ? (
+          <WorkoutPlan plan={workoutPlan} />
+        ) : (
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="age">Age:</label>
