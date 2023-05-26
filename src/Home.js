@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import backgroundImage from './images/background.png';
 
 const Home = () => {
   const [text, setText] = useState('');
@@ -39,15 +40,19 @@ const Home = () => {
 
   return (
     <div className="home-container">
-      <h2>Welcome to our Workout Planner</h2>
-      <p>{text}</p>
-      {isTypingComplete && (
-        <div>
-          <p>{words[words.length - 1]}</p>
-          <Link to="/workout-form" className="btn">Create Workout Plan</Link>
-        </div>
-      )}
+  <h2>Welcome to our Workout Planner</h2>
+  <p>{text}</p>
+  {isTypingComplete && (
+    <div>
+      <p>{words[words.length - 1]}</p>
+      <Link to="/workout-form" className="btn">Create Workout Plan</Link>
     </div>
+  )}
+    <div className="background-image-section" style={{ backgroundImage: `url(${backgroundImage})` }}></div>
+
+</div>
+
+  
   );
 };
 

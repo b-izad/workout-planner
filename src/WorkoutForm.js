@@ -15,51 +15,39 @@ const WorkoutForm = () => {
   const [planReady, setPlanReady] = useState(false);
   const [loading, setLoading] = useState(false);
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     const requestBody = {
-      model: 'text-davinci-003',
-      prompt: `I am a ${sex}, ${age} years old. My weight is ${weight} cm and my height is ${height} kilograms,  goals: ${goals}, equipment: ${equipment}, I am willing to workout ${days} a week. What's a good workout plan for me? give me the workouts plan (with numbers) and tell me each day do what (devided oin the ${days} I can workout) for the best results`,
-      max_tokens: 500,
-      temperature: 0.5,
+      prompt: `I am a ${sex}, ${age} years old. My weight is ${weight} cm and my height is ${height} kilograms, goals: ${goals}, equipment: ${equipment}, I am willing to workout ${days} a week. What's a good workout plan for me? give me the workouts plan (with numbers) and tell me each day do what (divided on the ${days} I can workout) for the best results`,
     };
 
     try {
-      const response = await axios.post('https://api.openai.com/v1/completions', requestBody, {
+      
+      const response = await axios.post('http://localhost:5000/getWorkoutPlan', requestBody, {
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${process.env.REACT_APP_OPENAI_KEY}`,
         },
       });
-      const workoutPlanText = response.data.choices[0].text;
-      console.log('workoutPlanText:', workoutPlanText); // Log the workout plan text
-      
-      const workoutPlanArray = workoutPlanText.split(/\n{2,}/);
+      const workoutPlanText = response.data;
 
-      console.log('workoutPlanArray:', workoutPlanArray); // Log the split workout plan array
-      
-      const formattedWorkoutPlan = workoutPlanArray.slice(1).map((plan) => {
-        const [day, exercises] = plan.split(':');
-        return { day, exercises };
-      });
-      
       setWorkoutPlan(workoutPlanText);
       setLoading(false);
-      console.log(formattedWorkoutPlan)
       setPlanReady(true);
     } catch (error) {
       console.error('Error fetching workout plan:', error);
     }
   };
+
+
+
   
     return(
       <div>
         {loading ? (
           <div className="spinner-container">
-            <RingLoader color='rgb(193, 208, 181)' loading={true} size={400} />
+            <RingLoader color='#05386B' loading={true} size={400} />
            <p className='spinner-container-p'> Hang tight while we are preparing the best plan for you...</p>
           </div>
         ) : planReady ? (
